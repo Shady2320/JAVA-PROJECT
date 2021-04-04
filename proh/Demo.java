@@ -7,11 +7,23 @@ class Demo extends JFrame
 {
 	JPanel heading;
 	JPanel login = new JPanel();
-	JTextField username = new JTextField();  
+	JTextField username = new JTextField("Enter Your Username");  
 	JTextField password = new JTextField("Enter Password");
 	JButton signup = new JButton("Sign Up");
+    JButton reset = new JButton("RESET");
+
+
 	Demo()
 	{
+        reset.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+				username.setText("");
+				password.setText("");
+			}
+        });
+
+
+
 		signup.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 				new Ref().setVisible(true);
@@ -43,38 +55,69 @@ class Demo extends JFrame
         login.add(username);
 
 
-        JPasswordField password = new JPasswordField();
+       // JPasswordField password = new JPasswordField();
         password.setBounds(50,150,300,50);
         password.setForeground(Color.WHITE);
         password.setBackground(new Color(210,180,140));
         login.add(password);
 
 
-        
         signup.setBounds(50,250,100,50);
         signup.setBackground(new Color(160,182,45));
         login.add(signup);
+
+        reset.setBounds(175,250,100,50);
+        reset.setBackground(new Color(160,182,45));
+        login.add(reset);
  
 
 
         JButton login_button = new JButton("Login");
-        login_button.setBounds(250,250,100,50);
+        login_button.setBounds(300,250,100,50);
         login_button.setBackground(new Color(160,182,45));
         login.add(login_button);
-        login_button.addActionListener(new ActionListener(){
-		/*
-			public void actionPerformed(ActionEvent e) {
-				new Ref().setVisible(true);
-	 
-			}
-			*/
-		});
+        login_button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try{
+
+                    conn c1 = new conn();
+                    String u = username.getText();
+                    String v = password.getText();
+                    //System.out.println(u);
+                    //System.out.println(v);
+
+                    String q = "select * from registration where username='"+u+"' and password='"+v+"'";
+                    //INSERT INTO userdata(username,password) values (u,v)
+                    ResultSet rs = c1.s.executeQuery(q);
+                    if (rs.next()) {  
+                        String s = rs.getString(1);  
+                        String s1 = rs.getString(2); 
+                        //String q1 = "insert into userdata(username,password) values ('"+u+"','"+v+"');";     
+                        //username.setText(s);  
+                        //password.setText(s1);
+                        
+                         //System.out.println(s);
+                         //System.out.println(s1);    
+                     } else {  
+                        //String q1 = "insert into userdata(username,password) values ('"+u+"','"+v+"');";
+                        
+                        new Ref().setVisible(true);
+                              
+                     }  
+                    
+                    
+                }
+                catch(Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+        });
 
 
 		setSize(900,600);
 		setLayout(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		ImageIcon background_image = new ImageIcon("bg.jpg");
+		ImageIcon background_image = new ImageIcon("bg1.jpg");
 
 		Image img = background_image.getImage();
 		Image temp_img = img.getScaledInstance(900,600,Image.SCALE_SMOOTH);
@@ -91,32 +134,6 @@ class Demo extends JFrame
 	}
     
 
-	public void actionPerformed(){
-
-        try{
-
-            conn c1 = new conn();
-            String u = username.getText();
-            String v = password.getText();
-            
-            String q = "select * from login where username='"+u+"' and password='"+v+"'";
-            //INSERT INTO userdata(username,password) values (u,v)
-
-            
-            ResultSet rs = c1.s.executeQuery(q); 
-            /*if(rs.next()){
-                new details().f.setVisible(true);
-                f.setVisible(false);
-            }else{
-                JOptionPane.showMessageDialog(null, "Invalid login");
-                f.setVisible(false);
-            }
-            */
-        }
-        catch(Exception ex){
-            ex.printStackTrace();
-        }
-    }
 	public static void main(String args[])
 	{
 		new Demo();

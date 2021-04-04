@@ -10,12 +10,24 @@ class Ref extends JFrame
     JTextField username = new JTextField("Enter Your Username");
     JTextField password = new JTextField("Enter your Password");
     JTextField name = new JTextField("Enter your name");
-    JButton submit = new JButton("Submit");
+    JButton submit = new JButton("SUBMIT");
+    JButton reset = new JButton("RESET");
 
 
 
 	Ref()
 	{
+        reset.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+				username.setText("");
+				password.setText("");
+				name.setText("");
+			}
+        });
+
+
+
+
         submit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	try{
@@ -24,6 +36,10 @@ class Ref extends JFrame
             String u = username.getText();
             String v = password.getText();
             String w = name.getText();
+            System.out.println(u);
+            System.out.println(v);
+            System.out.println(w);
+
             
             //String q = "select * from login where username='"+u+"' and password='"+v+"'";
             String q = "insert into registration(username,password,name) values ('"+u+"','"+v+"','"+w+"');";
@@ -72,7 +88,7 @@ class Ref extends JFrame
         regform.add(username);
 
 
-        JPasswordField password = new JPasswordField();
+        //JPasswordField password = new JPasswordField();
         password.setBounds(50,120,300,50);
         password.setForeground(Color.WHITE);
         password.setBackground(new Color(210,180,140));
@@ -87,9 +103,13 @@ class Ref extends JFrame
 
 
         
-        submit.setBounds(150,250,100,50);
+        submit.setBounds(50,250,100,50);
         submit.setBackground(new Color(160,182,45));
         regform.add(submit);
+
+        reset.setBounds(250,250,100,50);
+        reset.setBackground(new Color(160,182,45));
+        regform.add(reset);
 
 
         
